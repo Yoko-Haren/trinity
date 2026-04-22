@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Trinity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: #000000;
+      scroll-padding-top: 80px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #131313;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #3C3C3C, #646464, #B5B5B5);
+      border-radius: 4px;
+      border: 1px solid #F3F3F3;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #646464, #B5B5B5, #F3F3F3);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000000;
+      color: #F3F3F3;
+      line-height: 1.4;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAKESURBVGiB7Zk9jtwwEIVfDyB7C19Ah8gJfAIfwSfQLXyCHMGn8BFyiVzAOTJkyFQHkCxR1dM/6pE00mCAGs5gs0l28XtksfTNUPz6/Zterx/0Q9M0x2EYpm3bjvM8b03ThBDCrdV1Hd7v95hS+nO1WtE0Tdu2ret6mqbp+77vWmu9gKzrOtxut3HO+dZaSylFVVWMMUYIYYwxXkophPjzZoOoqiLOecQYE2OMmLlpmhhC2Bpj5JxTSsk5Z0qplFJ674UQYqmqYoyJc46I2Bhj7kApJTjnUEoh53yhlBJjTDHGnHOuMcZ3gK7rYIzhnFNKMcYIIW4AkgAoJSICM6uq4pyLiFhr7b2/SdM0McYQkVKKiPA8Tyll13U5hLA2xjjnXERkjDHG6LrOSqndG4mIeZ6xLAuGYcC2bSilDF3X0VpLKcU5Z0TEOTvnGGNwzkEIEVJKD4AxBuccIQRmJqVcrbXruqaU0j7SdR2GYcCyLNi2jRjjnFNKxZzzI1hrjTHGGGNmrutyznHOmXN2zt2yLAu6rgMRgZk557uu676/5M45lFJgjOHz8/PljSilqLU2pRQRMcYY55xSyn3fP0REKUVEzDkjImMMEYkIKSVjjJfAeZ6hlKK1NmOMiBhjXCn1xhh7hG3bYIwBY4wYY0SEUkpKKaWU6wJzzrTW2nsPIQSIKKWUEMIYYzjnUEp5WKN938P3PTjnEEJQSiEilFJyzimlfEVEKYWqCkopYGaMMWutKaUYY9BaQyn1l/Xy9/d6vUKMEUophBDGGBhjUEqhlPIyIq9ARP8J7DmyLCCl4DjS3we/KsaYUsrD2v8BnuffQkKIH7/OOf88juOf2+2W/ob4D1+rT1G1Kj3kAAAAAElFTkSuQmCC');
+      background-repeat: repeat;
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      z-index: 9999;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10000;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(60,60,60,0.3);
+    }
+
+    .navbar-logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #F3F3F3;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .navbar-logo span {
+      color: #B5B5B5;
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: 4px;
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+    }
+
+    .navbar-menu a {
+      color: #B5B5B5;
+      text-decoration: none;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .navbar-menu a:hover {
+      color: #F3F3F3;
+    }
+
+    .navbar-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #F3F3F3;
+      transition: width 0.3s;
+    }
+
+    .navbar-menu a:hover::after {
+      width: 100%;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .navbar-btn {
+      padding: 0.6rem 1.5rem;
+      border: 1px solid #646464;
+      color: #F3F3F3;
+      text-decoration: none;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+      background: transparent;
+    }
+
+    .navbar-btn:hover {
+      border-color: #F3F3F3;
+      background: rgba(243,243,243,0.1);
+    }
+
+    .footer {
+      background: #0a0a0a;
+      border-top: 1px solid #3C3C3C;
+      padding: 4rem 3rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-brand h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #F3F3F3;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand p {
+      color: #646464;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #3C3C3C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #B5B5B5;
+      text-decoration: none;
+      transition: all 0.3s;
+      border-radius: 50%;
+    }
+
+    .footer-social a:hover {
+      border-color: #F3F3F3;
+      color: #F3F3F3;
+      background: rgba(243,243,243,0.05);
+    }
+
+    .footer-links h4 {
+      color: #F3F3F3;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: #646464;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .footer-links a:hover {
+      color: #B5B5B5;
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 3rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #646464;
+      font-size: 0.85rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-bottom-links a {
+      color: #646464;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-bottom-links a:hover {
+      color: #B5B5B5;
+    }
+
+    #smooth-content {
+      position: relative;
+      width: 100%;
+    }
+
+    .section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #hero_cover {
+      height: 100vh;
+      width: 100%;
+      background: #000000;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    #canvas-stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    #trinity-3d-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 65%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hero-content-left {
+      position: relative;
+      z-index: 10;
+      padding-left: 8vw;
+      max-width: 600px;
+      animation: contentFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-content-left h1 {
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      text-shadow: 0 0 60px rgba(0,0,0,0.8);
+      margin-bottom: 1rem;
+    }
+
+    .hero-content-left .subtitle {
+      font-size: 1.4rem;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: #B5B5B5;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      border: 2px solid #646464;
+      color: #F3F3F3;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-cta:hover {
+      border-color: #F3F3F3;
+      background: rgba(243,243,243,0.1);
+      transform: scale(1.05);
+    }
+
+    @keyframes contentFadeIn {
+      0% { opacity: 0; transform: translateX(-50px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .wipe-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #3C3C3C;
+      z-index: 1000;
+      transform: translateY(-100%);
+      pointer-events: none;
+      transition: transform 1.8s cubic-bezier(0.86, 0, 0.07, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15vw;
+      font-weight: 900;
+      color: #131313;
+      mix-blend-mode: overlay;
+    }
+    .wipe-overlay.active {
+      transform: translateY(0%);
+    }
+
+    #trinity_pie_members {
+      min-height: 100vh;
+      background: #0a0a0a;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 6rem 0;
+      margin-top: -1px;
+    }
+
+    .section2-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(100,100,100,0.04) 0%, transparent 60%),
+        repeating-linear-gradient(45deg, rgba(60,60,60,0.015) 0px, rgba(60,60,60,0.015) 2px, transparent 2px, transparent 8px);
+      z-index: 1;
+    }
+
+    .members-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .member-item {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .member-visual {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      border: 1px solid #3C3C3C;
+    }
+
+    .member-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+      filter: grayscale(1) contrast(1.2) brightness(0.6);
+    }
+
+    .member-item:hover .member-bg {
+      transform: scale(1.1);
+      filter: grayscale(0.3) contrast(1.1) brightness(0.9);
+    }
+
+    .member-1 .member-bg {
+      background-image: url('../img/takashie.png');
+    }
+
+    .member-2 .member-bg {
+      background-image: url('../img/valera.png');
+    }
+
+    .member-3 .member-bg {
+      background-image: url('../img/bapor.png');
+    }
+
+    .member-overlay {
+      position: absolute;
+      top: 0;  
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+    }
+
+    .member-label {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      right: 2rem;
+      z-index: 5;
+    }
+
+    .member-role {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #F3F3F3;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+
+    .member-name {
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      color: #B5B5B5;
+      text-transform: uppercase;
+    }
+
+    .hover-info-panel {
+      position: fixed;
+      left: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 400px;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(20px);
+      border: 1px solid #3C3C3C;
+      padding: 2.5rem;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+      pointer-events: none;
+      border-left: 4px solid #B5B5B5;
+    }
+
+    .hover-info-panel.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .hover-info-panel h3 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: #F3F3F3;
+      letter-spacing: -0.02em;
+    }
+
+    .hover-info-panel .info-subtitle {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #646464;
+      margin-bottom: 1.5rem;
+    }
+
+    .hover-info-panel p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #B5B5B5;
+      margin-bottom: 2rem;
+    }
+
+    .hover-info-panel .info-stat {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #3C3C3C;
+    }
+
+    .hover-info-panel .stat-item {
+      flex: 1;
+    }
+
+    .hover-info-panel .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #F3F3F3;
+    }
+
+    .hover-info-panel .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #646464;
+    }
+
+    #formify_product_showcase {
+      background: #0a0a0a;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin-top: -1px;
+    }
+
+    .tv-distortion {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(255,255,255,0.03) 2px, transparent 3px, transparent 5px);
+      animation: scanlines 8s linear infinite;
+    }
+
+    .tv-distortion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(0,0,0,0.5) 100%);
+    }
+
+    .tv-distortion::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: linear-gradient(to bottom, rgba(243,243,243,0.1), transparent);
+      animation: screenGlare 6s ease-in-out infinite;
+    }
+
+    @keyframes scanlines {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 10px; }
+    }
+
+    @keyframes screenGlare {
+      0%, 100% { opacity: 0; transform: translateY(-100%); }
+      50% { opacity: 0.15; transform: translateY(400%); }
+    }
+
+    .parallax-layer {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .hex-grid {
+      background-image: url('data:image/svg+xml;utf8,<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><path d="M40 5 L70 22.5 L70 57.5 L40 75 L10 57.5 L10 22.5 Z" fill="none" stroke="%233C3C3C" stroke-width="1.5" opacity="0.3"/></svg>');
+      background-size: 80px 80px;
+      opacity: 0.3;
+    }
+
+    .binary-rain {
+      background: repeating-linear-gradient(0deg, #646464 0px, #B5B5B5 2px, transparent 3px, transparent 6px);
+      opacity: 0.08;
+      mix-blend-mode: screen;
+      animation: rainScroll 10s linear infinite;
+    }
+
+    @keyframes rainScroll { 
+      0% { background-position: 0 0; } 
+      100% { background-position: 0 200px; } 
+    }
+
+    #orb-canvas {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 8;
+    }
+
+    .formify-content {
+      position: relative;
+      z-index: 20;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4rem;
+      color: #F3F3F3;
+      pointer-events: none;
+    }
+
+    .content-block-top-left {
+      max-width: 600px;
+      pointer-events: auto;
+    }
+
+    .content-block-bottom-right {
+      max-width: 600px;
+      align-self: flex-end;
+      text-align: right;
+      pointer-events: auto;
+    }
+
+    .block-title {
+      font-size: clamp(3.5rem, 8vw, 5.5rem);
+      font-weight: 800;
+      color: #F3F3F3;
+      line-height: 1.1;
+      text-shadow: 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .block-subtitle {
+      font-size: 1.6rem;
+      color: #B5B5B5;
+      margin: 1rem 0;
+    }
+
+    .cta-draw {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      border: 2px solid #646464;
+      color: #F3F3F3;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+    }
+
+    .cta-draw:hover {
+      border-color: #F3F3F3;
+      box-shadow: inset 0 0 0 2px #F3F3F3, 0 0 30px rgba(243,243,243,0.3);
+    }
+
+    .cards-duo {
+      display: flex;
+      gap: 2rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: rgba(20,20,20,0.5);
+      backdrop-filter: blur(12px);
+      padding: 1.8rem;
+      border-left: 6px solid;
+      width: 260px;
+      transition: transform 0.3s;
+      text-align: left;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      background: rgba(40,40,40,0.6);
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: #F3F3F3;
+    }
+
+    .card p {
+      color: #B5B5B5;
+      font-size: 0.95rem;
+    }
+
+    #data_flow_section {
+      min-height: 100vh;
+      background: #050505;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 6rem 4rem;
+      margin-top: -1px;
+    }
+
+    .data-flow-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(90deg, rgba(100,100,100,0.02) 0px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(0deg, rgba(100,100,100,0.02) 0px, transparent 1px, transparent 40px),
+        radial-gradient(circle at 20% 30%, rgba(60,60,60,0.05) 0%, transparent 50%);
+    }
+
+    .data-flow-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .data-flow-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .data-flow-title {
+      font-size: clamp(3.5rem, 8vw, 5rem);
+      font-weight: 800;
+      color: #F3F3F3;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .data-flow-subtitle {
+      font-size: 1.3rem;
+      color: #B5B5B5;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    .pipeline-card {
+      background: rgba(19,19,19,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid #3C3C3C;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: all 0.4s;
+      cursor: pointer;
+    }
+
+    .pipeline-card:hover {
+      transform: translateY(-15px);
+      border-color: #B5B5B5;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .pipeline-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      border: 2px solid #646464;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #F3F3F3;
+      background: rgba(60,60,60,0.3);
+    }
+
+    .pipeline-card:hover .pipeline-icon {
+      border-color: #F3F3F3;
+      background: rgba(100,100,100,0.5);
+    }
+
+    .pipeline-card h4 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #F3F3F3;
+    }
+
+    .pipeline-card p {
+      color: #B5B5B5;
+      line-height: 1.6;
+    }
+
+    #convergence_section {
+      min-height: 100vh;
+      background: #000000;
+      position: relative;
+      padding: 6rem 4rem;
+      margin-top: -1px;
+    }
+
+    .convergence-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 80% 20%, rgba(100,100,100,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(60,60,60,0.04) 0%, transparent 50%);
+    }
+
+    .convergence-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .convergence-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .convergence-header h2 {
+      font-size: clamp(3.5rem, 8vw, 5rem);
+      font-weight: 800;
+      color: #F3F3F3;
+      margin-bottom: 1rem;
+    }
+
+    .convergence-header p {
+      color: #B5B5B5;
+      font-size: 1.2rem;
+    }
+
+    .about-content {
+      background: rgba(19,19,19,0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid #2a2a2a;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .about-content p {
+      color: #B5B5B5;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .thesis-info {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .thesis-info p {
+      color: #646464;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .thesis-authors {
+      color: #F3F3F3;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      margin: 1.5rem 0;
+    }
+
+    @media (max-width: 1200px) {
+      .navbar {
+        padding: 1rem 2rem;
+      }
+      
+      .navbar-menu {
+        gap: 2rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      
+      .pipeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 968px) {
+      .navbar-menu {
+        display: none;
+      }
+      
+      .members-wrapper {
+        padding: 0 2rem;
+      }
+      
+      .member-role {
+        font-size: 1.6rem;
+      }
+      
+      .hover-info-panel {
+        left: 2rem;
+        width: 320px;
+        padding: 2rem;
+      }
+      
+      .formify-content {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #trinity-3d-container {
+        width: 100%;
+        opacity: 0.5;
+      }
+      
+      .hero-content-left {
+        padding-left: 5vw;
+      }
+      
+      .members-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .member-visual {
+        aspect-ratio: 16/9;
+      }
+      
+      .hover-info-panel {
+        left: 1rem;
+        right: 1rem;
+        width: auto;
+      }
+      
+      .formify-content {
+        padding: 1.5rem;
+      }
+      
+      .cards-duo {
+        flex-direction: column;
+      }
+      
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      #data_flow_section,
+      #convergence_section {
+        padding: 4rem 1.5rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .footer-social {
+        justify-content: center;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      
+      .footer-bottom-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar-logo">FORMIFY<span>//</span></a>
+    <ul class="navbar-menu">
+      <li><a href="#hero_cover">Home</a></li>
+      <li><a href="#trinity_pie_members">Team</a></li>
+      <li><a href="#formify_product_showcase">Formify</a></li>
+      <li><a href="#data_flow_section">Objectives</a></li>
+      <li><a href="#convergence_section">About</a></li>
+    </ul>
+    <div class="navbar-right">
+      <a href="#" class="navbar-btn">Contact</a>
+    </div>
+  </nav>
+
+  <div id="smooth-content">
+    <div class="wipe-overlay" id="globalWipe">TRINITY</div>
+
+    <div class="hover-info-panel" id="hoverInfoPanel">
+      <h3 id="infoTitle">Full Stack Developer</h3>
+      <div class="info-subtitle" id="infoSubtitle">Yocoharen Takashie</div>
+      <p id="infoDesc">This guy lacks sleep and eats only instant noodles with pechay and egg. He just wants to code.</p>
+      <div class="info-stat">
+        <div class="stat-item">
+          <div class="stat-value" id="infoStat1">3</div>
+          <div class="stat-label">Years in College</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="infoStat2">∞</div>
+          <div class="stat-label">Cups of Coffee</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="hero_cover" class="section">
+      <canvas id="canvas-stars"></canvas>
+      <div id="trinity-3d-container"></div>
+      
+      <div class="hero-content-left">
+        <h1>Formify</h1>
+        <div class="subtitle">Automating Secondary School Forms with AI-Powered Anomaly Detection</div>
+        <a href="#trinity_pie_members" class="hero-cta">MEET THE TEAM →</a>
+      </div>
+    </section>
+
+    <section id="trinity_pie_members" class="section">
+      <div class="section2-bg"></div>
+      
+      <div class="members-wrapper">
+        <div class="member-item member-1" data-member="programmer">
+          <div class="member-visual">
+            <div class="member-bg"></div>
+            <div class="member-overlay"></div>
+            <div class="member-label">
+              <div class="member-role">Yocoharen T.</div>
+              <div class="member-name">Chief Technology Officer</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="member-item member-2" data-member="pm">
+          <div class="member-visual">
+            <div class="member-bg"></div>
+            <div class="member-overlay"></div>
+            <div class="member-label">
+              <div class="member-role">Aron John Smith V.</div>
+              <div class="member-name">Chief Executive Officer</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="member-item member-3" data-member="data">
+          <div class="member-visual">
+            <div class="member-bg"></div>
+            <div class="member-overlay"></div>
+            <div class="member-label">
+              <div class="member-role">Ariel B.</div>
+              <div class="member-name">Chief Marketing Offiecer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="formify_product_showcase" class="section">
+      <div class="parallax-layer hex-grid" data-speed="0.1"></div>
+      <div class="parallax-layer binary-rain" data-speed="0.2"></div>
+      <div class="tv-distortion"></div>
+      <canvas id="orb-canvas"></canvas>
+      
+      <div class="formify-content">
+        <div class="content-block-top-left">
+          <div class="block-title">Formify</div>
+          <div class="block-subtitle">Automated School Form System with AI-Powered Anomaly Detection</div>
+          <p style="font-size:1.1rem; max-width:500px; color:#B5B5B5; margin-top:1rem;">
+            A centralized platform designed to automate DepEd School Forms (SF1-SF10) generation while intelligently monitoring data integrity through AI-powered anomaly detection.
+          </p>
+          <a href="#" class="cta-draw">Explore Features →</a>
+        </div>
+        
+        <div class="content-block-bottom-right">
+          <div class="block-title" style="font-size: clamp(2.8rem, 7vw, 4.5rem);">Features</div>
+          <div class="cards-duo">
+            <div class="card" style="border-left-color:#646464;">
+              <h3>Automated Forms</h3>
+              <p>Generate SF1-SF10 with auto-computed grades and attendance.</p>
+            </div>
+            <div class="card" style="border-left-color:#3C3C3C;">
+              <h3>AI Anomaly Detection</h3>
+              <p>Intelligent monitoring for suspicious data modifications.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="data_flow_section" class="section">
+      <div class="data-flow-bg"></div>
+      <div class="data-flow-container">
+        <div class="data-flow-header">
+          <h2 class="data-flow-title">Research Objectives</h2>
+          <p class="data-flow-subtitle">Addressing challenges in public secondary school records management in Davao del Norte Division</p>
+        </div>
+        
+        <div class="pipeline-grid">
+          <div class="pipeline-card">
+            <div class="pipeline-icon">01</div>
+            <h4>Centralized Database</h4>
+            <p>Design a unified system for storing student information, grades, and attendance—eliminating data redundancy across SF1-SF10.</p>
+          </div>
+          <div class="pipeline-card">
+            <div class="pipeline-icon">02</div>
+            <h4>Automated Generation</h4>
+            <p>Develop modules that produce DepEd-compliant PDF forms with auto-computed grades and promotion status.</p>
+          </div>
+          <div class="pipeline-card">
+            <div class="pipeline-icon">03</div>
+            <h4>AI Anomaly Detection</h4>
+            <p>Implement intelligent monitoring to identify unauthorized access or data tampering in student records.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="convergence_section" class="section">
+      <div class="convergence-bg"></div>
+      <div class="convergence-container">
+        <div class="convergence-header">
+          <h2>About the Project</h2>
+          <p>BSIT Thesis · Davao del Norte State College</p>
+        </div>
+        
+        <div class="about-content">
+          <p>This research presents a web-based automated school form system with AI-powered anomaly detection for public secondary schools in Davao del Norte Division. The system addresses challenges in managing DepEd School Forms (SF1-SF10)—currently handled through error-prone manual Excel processes. By centralizing records, automating form generation, and implementing AI monitoring, Formify reduces teacher workload, enhances data integrity, and supports DepEd's digital transformation.</p>
+
+          <div class="thesis-info">
+            <p>Presented to the Institute of Computing</p>
+            <p>Davao del Norte State College — Panabo City</p>
+            <p>In Partial Fulfillment of the Requirements for the Degree</p>
+            <p style="color:#F3F3F3; margin-top:0.5rem;">BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</p>
+            <div class="thesis-authors">
+              Ariel F. Bapor · Yocoharen B. Takashie · Aron John Smith Q. Valera
+            </div>
+            <p style="margin-top:1rem; color:#3C3C3C;">Team formed 2026 · 3rd Year College · 2nd Semester</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>FORMIFY</h3>
+        <p>Automating Secondary School Forms with AI-Powered Anomaly Detection in Davao del Norte Division</p>
+        <div class="footer-social">
+          <a href="#">GH</a>
+          <a href="#">FB</a>
+          <a href="#">TW</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="#">Formify System</a></li>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Research Paper</a></li>
+          <li><a href="#">Source Code</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Team</h4>
+        <ul>
+          <li><a href="#">Yocoharen Takashie</a></li>
+          <li><a href="#">Aron John Smith Valera</a></li>
+          <li><a href="#">Ariel Bapor</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Institution</h4>
+        <ul>
+          <li><a href="#">DNSC</a></li>
+          <li><a href="#">Institute of Computing</a></li>
+          <li><a href="#">BSIT Program</a></li>
+          <li><a href="#">DepEd DDN</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Bapor · Takashie · Valera — BSIT Thesis Project</div>
+      <div class="footer-bottom-links">
+        <a href="#">Davao del Norte State College</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    const starsCanvas = document.getElementById('canvas-stars');
+    const starsRenderer = new THREE.WebGLRenderer({ canvas: starsCanvas, alpha: false });
+    starsRenderer.setSize(window.innerWidth, window.innerHeight);
+    starsRenderer.setPixelRatio(Math.min(2, devicePixelRatio));
+    
+    const starsScene = new THREE.Scene();
+    starsScene.background = new THREE.Color('#000000');
+    const starsCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    starsCamera.position.z = 1;
+    
+    const starsGeometry = new THREE.BufferGeometry();
+    const starsCount = 250;
+    const starsPositions = new Float32Array(starsCount * 3);
+    const starsColors = new Float32Array(starsCount * 3);
+    
+    for (let i = 0; i < starsCount * 3; i += 3) {
+      const r = 500;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos((Math.random() * 2) - 1);
+      
+      starsPositions[i] = Math.sin(phi) * Math.cos(theta) * r;
+      starsPositions[i + 1] = Math.sin(phi) * Math.sin(theta) * r;
+      starsPositions[i + 2] = Math.cos(phi) * r;
+      
+      const brightness = 0.5 + Math.random() * 0.5;
+      starsColors[i] = brightness;
+      starsColors[i + 1] = brightness;
+      starsColors[i + 2] = brightness;
+    }
+    
+    starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+    starsGeometry.setAttribute('color', new THREE.BufferAttribute(starsColors, 3));
+    
+    const starsMaterial = new THREE.PointsMaterial({
+      size: 0.6,
+      vertexColors: true,
+      transparent: true,
+      blending: THREE.AdditiveBlending
+    });
+    
+    const stars = new THREE.Points(starsGeometry, starsMaterial);
+    starsScene.add(stars);
+    
+    let starTime = 0;
+    
+    function starsLoop() {
+      requestAnimationFrame(starsLoop);
+      starTime += 0.0003;
+      stars.rotation.y = starTime * 0.1;
+      stars.rotation.x = Math.sin(starTime * 0.05) * 0.1;
+      starsRenderer.render(starsScene, starsCamera);
+    }
+    starsLoop();
+
+    const container = document.getElementById('trinity-3d-container');
+    const scene = new THREE.Scene();
+    scene.background = null;
+    
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(4, 2, 7);
+    camera.lookAt(0, 0, 0);
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+    
+    const ambientLight = new THREE.AmbientLight(0x404060);
+    scene.add(ambientLight);
+    
+    const dirLight = new THREE.DirectionalLight(0xFFFFFF, 1.5);
+    dirLight.position.set(2, 5, 3);
+    scene.add(dirLight);
+    
+    const trinityGroup = new THREE.Group();
+    
+    const coreSphere = new THREE.Mesh(
+      new THREE.SphereGeometry(1.3, 64, 32),
+      new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0x333333, roughness: 0.15, metalness: 0.85, transparent: true, opacity: 0.95 })
+    );
+    trinityGroup.add(coreSphere);
+    
+    const ringMaterial = new THREE.MeshStandardMaterial({ color: 0xCCCCCC, emissive: 0x111111, roughness: 0.25, metalness: 0.75, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+    
+    const ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.9, 0.04, 32, 100), ringMaterial);
+    ring1.rotation.x = Math.PI / 2;
+    ring1.rotation.z = 0.3;
+    trinityGroup.add(ring1);
+    
+    const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.3, 0.035, 32, 100), ringMaterial);
+    ring2.rotation.y = 0.8;
+    ring2.rotation.x = 0.5;
+    trinityGroup.add(ring2);
+    
+    const ring3 = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.03, 32, 100), ringMaterial);
+    ring3.rotation.z = 0.9;
+    ring3.rotation.x = 0.7;
+    trinityGroup.add(ring3);
+    
+    scene.add(trinityGroup);
+    
+    let time = 0;
+    
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      time += 0.004;
+      trinityGroup.rotation.y = Math.sin(time * 0.15) * 0.25;
+      ring1.rotation.z += 0.002;
+      ring2.rotation.x += 0.0015;
+      ring3.rotation.y += 0.001;
+      renderer.render(scene, camera);
+    }
+    animate3D();
+
+    const orbCanvas = document.getElementById('orb-canvas');
+    const orbRenderer = new THREE.WebGLRenderer({ canvas: orbCanvas, alpha: true });
+    orbRenderer.setSize(window.innerWidth, window.innerHeight);
+    
+    const orbScene = new THREE.Scene();
+    const orbCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    orbCamera.position.z = 7;
+    
+    const orbGroup = new THREE.Group();
+    
+    const mainOrb = new THREE.Mesh(
+      new THREE.SphereGeometry(2.2, 64, 32),
+      new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0x444444, roughness: 0.12, metalness: 0.9, transparent: true, opacity: 0.95 })
+    );
+    orbGroup.add(mainOrb);
+    
+    const wireframeOrb = new THREE.Mesh(
+      new THREE.SphereGeometry(2.25, 24, 16),
+      new THREE.MeshStandardMaterial({ color: 0xCCCCCC, wireframe: true, transparent: true, opacity: 0.25 })
+    );
+    orbGroup.add(wireframeOrb);
+    
+    orbScene.add(orbGroup);
+    orbScene.add(new THREE.AmbientLight(0x333333));
+    
+    function orbLoop() {
+      requestAnimationFrame(orbLoop);
+      orbGroup.rotation.y += 0.0015;
+      orbGroup.rotation.x += 0.0008;
+      orbRenderer.render(orbScene, orbCamera);
+    }
+    orbLoop();
+
+    window.addEventListener('resize', () => {
+      starsRenderer.setSize(window.innerWidth, window.innerHeight);
+      starsCamera.aspect = window.innerWidth / window.innerHeight;
+      starsCamera.updateProjectionMatrix();
+      
+      const w = container.clientWidth, h = container.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      
+      orbRenderer.setSize(window.innerWidth, window.innerHeight);
+      orbCamera.aspect = window.innerWidth / window.innerHeight;
+      orbCamera.updateProjectionMatrix();
+    });
+  </script>
+
+  <script>
+    const hoverPanel = document.getElementById('hoverInfoPanel');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoSubtitle = document.getElementById('infoSubtitle');
+    const infoDesc = document.getElementById('infoDesc');
+    const infoStat1 = document.getElementById('infoStat1');
+    const infoStat2 = document.getElementById('infoStat2');
+    
+    const memberData = {
+      programmer: {
+        title: 'Full Stack Developer',
+        subtitle: 'Yocoharen Takashie',
+        desc: 'This guy lacks sleep and eats only instant noodles with pechay and egg. He just wants to code.',
+        stat1: '3',
+        stat2: '∞'
+      },
+      pm: {
+        title: 'Project Manager',
+        subtitle: 'Aron John Smith Valera',
+        desc: 'The orchestrator of vision and execution. Ensures every line of code and data point aligns with the research objectives. The bridge between technical brilliance and project completion.',
+        stat1: '3',
+        stat2: '100%'
+      },
+      data: {
+        title: 'Project Analyst',
+        subtitle: 'Ariel Bapor',
+        desc: 'The data whisperer. Transforms raw information into actionable insights. Keen eye for patterns and anomalies, ensuring Formify\'s intelligence serves Davao del Norte Division.',
+        stat1: '3',
+        stat2: '100%'
+      }
+    };
+    
+    document.querySelectorAll('.member-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const member = item.dataset.member;
+        const data = memberData[member];
+        
+        infoTitle.textContent = data.title;
+        infoSubtitle.textContent = data.subtitle;
+        infoDesc.textContent = data.desc;
+        infoStat1.textContent = data.stat1;
+        infoStat2.textContent = data.stat2;
+        
+        hoverPanel.classList.add('active');
+      });
+      
+      item.addEventListener('mouseleave', () => {
+        hoverPanel.classList.remove('active');
+      });
+    });
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const navbarHeight = 80;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
